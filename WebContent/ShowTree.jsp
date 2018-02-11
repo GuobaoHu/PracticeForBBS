@@ -54,6 +54,7 @@ tree(conn, 0, 0);
 </head>
 <body>
 	<div class="container">
+		<a href="New.jsp" class="btn btn-primary btn-xs" role="button">创建新话题</a>
 		<table class="table">
 			<%= output %>
 		</table>

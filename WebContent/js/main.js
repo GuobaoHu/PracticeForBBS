@@ -57,6 +57,50 @@ $().ready(function() {
 			}
 		}
 	});
+	$("#reply_form").validate({
+		rules: {
+			title: {
+				required: true,
+				maxlength: 25
+			},
+			cont: {
+				required: true,
+				rangelength: [5,500]
+			}			
+		},
+		messages: {
+			title: {
+				required: "请输入标题",
+				maxlength: "请输入不超过{0}个字符的标题，中文算一个字符"
+			},
+			cont: {
+				required: "内容不能为空",
+				rangelength: jQuery.format("请输入长度在 {0} 到 {1} 之间的字符串")
+			}
+		}
+	});
+	$("#new_form").validate({
+		rules: {
+			title: {
+				required: true,
+				maxlength: 25
+			},
+			cont: {
+				required: true,
+				rangelength: [5,500]
+			}			
+		},
+		messages: {
+			title: {
+				required: "请输入标题",
+				maxlength: "请输入不超过{0}个字符的标题，中文算一个字符"
+			},
+			cont: {
+				required: "内容不能为空",
+				rangelength: jQuery.format("请输入长度在 {0} 到 {1} 之间的字符串")
+			}
+		}
+	});
 });
 $(function() {
 	$("#register_btn").click(function() {

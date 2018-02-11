@@ -2,8 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%
-
-int id = Integer.parseInt(request.getParameter("id"));
+int id;
+try {
+	id = Integer.parseInt(request.getParameter("id"));
+} catch (NumberFormatException e) {
+	out.println("id的数字格式不对！");
+	return;
+}
 
 Class.forName("com.mysql.jdbc.Driver");
 Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/bbs?" +
@@ -47,6 +52,9 @@ rs.next();
 				<td><%= rs.getInt("isleaf") %></td>
 			</tr>
 		</table>
+	<a href="Reply.jsp?id=<%= rs.getInt("id") %>&rootid=<%= rs.getInt("rootid") %>&isleaf=<%= rs.getInt("isleaf") %>"
+			 class="btn btn-primary btn-xs" role="button">回复</a>
 	</div>
 </body>
+<% if(rs!= null) rs.close(); %>
 </html>
