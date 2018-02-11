@@ -4,6 +4,9 @@
 <!-- 递归方法 -->
 <%!
 String output = "";
+//判断是否是管理员的全局变量
+boolean isAdmin = false;
+
 private void tree(Connection conn, int id, int level) {
 	Statement stmt = null;
 	ResultSet rs = null;
@@ -15,9 +18,14 @@ private void tree(Connection conn, int id, int level) {
 			preStr = preStr + "====";
 		}
 		while(rs.next()) {
+			String delStr = "";
+			if(isAdmin) {
+				delStr = "<td><a href='Delete.jsp?id=" + rs.getInt("id") + "&pid=" + rs.getInt("pid") + 
+							"'>删除</a></td>";
+			}
 			output = output + "<tr><td>" + rs.getInt("id") + 
 					"</td><td>" + preStr +  "<a href='ShowDetail.jsp?id=" + 
-					rs.getInt("id") + "'>" + rs.getString("title") + "</a>" + "</td></tr>";
+					rs.getInt("id") + "'>" + rs.getString("title") + "</a></td>" + delStr + "</tr>";
 			if(rs.getInt("isleaf") == 1) {
 				tree(conn, rs.getInt("id"), level+1);
 			}
@@ -32,6 +40,14 @@ private void tree(Connection conn, int id, int level) {
 			e.printStackTrace();
 		}
 	}
+}
+%>
+
+<!-- 是否是管理员的具体判断 -->
+<%
+String isAdminStr = (String)session.getAttribute("admin");
+if(isAdminStr != null && isAdminStr.trim().equals("true")) {
+	isAdmin = true;
 }
 %>
 
@@ -61,6 +77,7 @@ tree(conn, 0, 0);
 	</div>
 </body>
 <%
+isAdmin = false;
 output = "";
 if(conn != null) conn.close();
 %>
